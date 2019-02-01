@@ -1,0 +1,192 @@
+/* @font-face{
+    font-family: 'pokemon classic';
+    src: url('../Ressources/Fonts/pokemon_classic/Pokemon_Classic.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face{
+    font-family: 'pokemon classic RS';
+    src: url('/Fonts/pokemon_ruby_sapphi/PKMNRSEU.FON');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Luckiest+Guy'); */
+
+/* @import url('https://fonts.googleapis.com/css?family=Bangers|Faster+One|Gorditas|Libre+Barcode+39+Extended+Text|Libre+Barcode+39+Text|Luckiest+Guy|Macondo+Swash+Caps|Mystery+Quest|Press+Start+2P|Sevillana|Special+Elite|ZCOOL+KuaiLe');
+font-family: 'Press Start 2P', cursive;
+font-family: 'Bangers', cursive;
+font-family: 'Luckiest Guy', cursive;
+font-family: 'Special Elite', cursive;
+font-family: 'ZCOOL KuaiLe', cursive;
+font-family: 'Faster One', cursive;
+font-family: 'Mystery Quest', cursive;
+font-family: 'Libre Barcode 39 Extended Text', cursive;
+font-family: 'Libre Barcode 39 Text', cursive;
+font-family: 'Gorditas', cursive;
+font-family: 'Sevillana', cursive;
+font-family: 'Macondo Swash Caps', cursive;
+
+@font-face{
+    font-family: 'Pokemon txt pixels';
+    src: url('../Ressources/Fonts/pokemon_font-Dafont/pokemon-font.otf') format("truetype");
+}
+
+@font-face{
+    font-family: 'Pokemon Logo font solid';
+    src: url('../Ressources/Fonts/pokemon_font-Dafont/Pokemon_Solid.ttf');
+}
+
+@font-face{
+    font-family: 'Pokemon Logo font hollow';
+    src: url('../Ressources/Fonts/pokemon-font_Dafont/Pokemon_Hollow.ttf');
+}
+
+@font-face{
+    font-family: 'Project Paintball';
+    src: url('../Ressources/Fonts/project_paintball_beta_4_by_japanyoshi-d93slk4.otf') format("truetype");
+    font-weight: bold;
+    font-style: normal;
+} */
+
+/* @font-face{       => Ne fonctionne pas :(
+    font-family: "Pokemon Solid";
+    src: url('../Ressources/Fonts/Pokemon-Font-Solid.svg') format("svg");
+} */
+
+/* @import url(//db.onlinewebfonts.com/c/aed2edecd9a101a81088333d1d7917a4?family=Pokemon+Solid); */
+
+/* @font-face {font-family: "Pokemon Solid";
+    src: url("//db.onlinewebfonts.com/t/aed2edecd9a101a81088333d1d7917a4.eot");
+    src: url("//db.onlinewebfonts.com/t/aed2edecd9a101a81088333d1d7917a4.eot?#iefix") format("embedded-opentype"),
+    url("//db.onlinewebfonts.com/t/aed2edecd9a101a81088333d1d7917a4.woff2") format("woff2"),
+    url("//db.onlinewebfonts.com/t/aed2edecd9a101a81088333d1d7917a4.woff") format("woff"),
+    url("//db.onlinewebfonts.com/t/aed2edecd9a101a81088333d1d7917a4.ttf") format("truetype"),
+    url("//db.onlinewebfonts.com/t/aed2edecd9a101a81088333d1d7917a4.svg#Pokemon Solid") format("svg");
+} */
+
+body{
+    background-color: white;
+
+}
+
+header{
+    display: block;
+    background-image: url(./Images/pattern-pokeball.png);
+    background-repeat: repeat;
+    height: 125px;
+    margin: 5px;
+}
+
+img{
+    position: absolute;
+}
+
+#img-avatar{
+    width: 125px;
+    height: 125px;
+    align-content: center;
+}
+
+#container-img-nom{
+    overflow: hidden;
+    position: absolute;
+    top: 5px;
+    left: 150px;
+    width: 800px;
+    height: 100px;
+    z-index: 10;
+}
+
+#sprite-img-nom{
+    top: 10px;
+    left: -10px;
+}
+/* h1{
+    font-size: 4em;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: "Pokemon Solid";
+    font-family: 'Luckiest Guy', 'Project Paintball', cursive;
+} */
+
+/* #myKanvas {
+    background-color: #FFFF00;
+    display: block;
+} */
+
+#gameRow{
+    display: block;
+    background-image: url(./Images/pattern-pokemon.png);
+    background-repeat: repeat;
+    /* width: 1000px;
+    height: 600px;
+    border: 1px dashed red; */
+}
+
+#containerBall{
+    overflow: hidden;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 1px dashed green;
+    border-radius: 50%;
+    /* top:645px;
+    left: 570px; */
+    align-content: center;
+}
+
+#spriteBall{
+    position: absolute;
+}
+
+#containerPkmn{
+    overflow: hidden;
+    position: absolute;
+    width: 104px;
+    height: 100px;
+    border: 1px dashed yellow;
+    /* top: 300px;
+    left: 328px; */
+    align-content: center;
+}
+
+#spritePkmn{
+    position: absolute;
+}
+
+#gameArea{
+    /* overflow: hidden; */
+    position: relative;
+    /* top: -600px;
+    left: 205px; */
+    /* width: 790px;
+    height: 600px; */
+    border: 1px dashed red; 
+    background-image: url(./Images/Lac-Caverne-1.jpg);
+    /* border-width: 5px;
+    border-style: solid;
+    border-image: -webkit-linear-gradient(to left, red, orange, yellow, green, blue, indigo, violet); */
+/* Pour du texte : 
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-image: -webkit-linear-gradient(left, red, orange, yellow, green, blue, indigo, violet); */
+}
+
+#slash{
+    position: static;
+    left: 0px;
+    width: 200px;
+    height: 600px;
+    border: 1px dashed blue;
+}
+
+footer{
+    display: block;
+    background-image: url(./Images/pattern-pokeball.png);
+    background-repeat: repeat;
+    height: 125px;
+    margin: 5px;
+}

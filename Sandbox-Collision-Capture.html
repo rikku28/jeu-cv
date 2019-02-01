@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sandbox</title>
+</head>
+<body>
+    <div id="gameArea" style="top: 25px; left: 25px; width: 800px; height: 600px; border: 2px dashed red; background-image: url(./Images/Lac-Caverne1.jpg)">
+        <div id="pkmnContainer" style="top: 275px; left: 300px; width: 104px; height: 100px; border: 2px dashed yellow; overflow: hidden; position: absolute;">
+            <img id="pkmnSprite" src="./Images/Lokhlass-43686_Transparent.png" style="position: absolute;"></div>
+        </div>
+        <div id="ballContainer" style="top: 550px; left: 300px; width: 40px; height: 40px; border: 2px dashed green; overflow: hidden; position: absolute;">
+            <img id="ballSprite" src="./Images/Pokeball_39327_Transparent.png" style="position: absolute;"></div>
+        </div>
+    </div>
+    <script>
+// http://www.javascriptkit.com/javatutors/requestanimationframe.shtml
+// https://yesyouweb.com/comprendre-les-formats-de-polices-web-ttf-otf-woff-eot-et-svg/
+
+    'use strict';
+
+        var dblclic = false;
+        var k3238 = false;
+        var k37 = false;
+        var k39 = false;
+        var idTimeoutBall;
+        var hyperballMvtInitTimeoutId;
+        var idChocolat;
+        var masqueBall = window.document.getElementById('ballContainer');
+        var masqueXBall = masqueBall.style.left;
+        var masqueYBall = masqueBall.style.top;
+        var spriteBall = window.document.getElementById('ballSprite');
+        var spriteXBall = spriteBall.style.left;
+        var spriteYBall = spriteBall.style.top;
+        var masquePkmn = window.document.getElementById('pkmnContainer');
+        masquePkmn.style.left = '328px';
+        masquePkmn.style.top = '300px';
+        var masqueXPkmn = masquePkmn.style.left;
+        var masqueYPkmn = masquePkmn.style.top;
+        var spritePkmn = window.document.getElementById('pkmnSprite');
+        var spriteYPkmn = spritePkmn.style.top;
+        var spriteXPkmn = spritePkmn.style.left;
+        var deplacementXPkmn = true;
+        var collision = false;
+        var score = 0;
+        var vie = 3;
+        var totalball = 3;
+
+        var ballsInit = {
+            hyperball: [{
+                sprite:{
+                    sequence: '1-13',
+                    top: -520,
+                    left: -40
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            },{
+                sprite:{
+                    sequence: '1-12',
+                    top: -480,
+                    left: -40
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            },{
+                sprite:{
+                    sequence: '1-11',
+                    top: -440,
+                    left: -40
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            },
+            // {
+            //     sprite:{
+            //         sequence: '1-10',
+            //         top: -400,
+            //         left: -40
+            //     }, masque: {
+            //         height: 40,
+            //         width: 40
+            //     }
+            // },
+            {
+                sprite:{
+                    sequence: '1-00',
+                    top: 0,
+                    left: -40
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            }, {
+                sprite:{
+                    sequence: '1-14',
+                    top: -560,
+                    left: -40
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            }, {
+                sprite:{
+                    sequence: '1-15',
+                    top: -600,
+                    left: -40
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            }, {
+                sprite:{
+                    sequence: '1-16',
+                    top: -640,
+                    left: -40
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            }],
+            superball: [{
+                sprite:{
+                    sequence: '2-13',
+                    top: -520,
+                    left: -80
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            },{
+                sprite:{
+                    sequence: '2-12',
+                    top: -480,
+                    left: -80
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            },{
+                sprite:{
+                    sequence: '2-11',
+                    top: -440,
+                    left: -80
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            },
+            // {
+            //     sprite:{
+            //         sequence: '2-10',
+            //         top: -400,
+            //         left: -80
+            //     }, masque: {
+            //         height: 40,
+            //         width: 40
+            //     }
+            // },
+            {
+                sprite:{
+                    sequence: '2-00',
+                    top: 0,
+                    left: -80
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            },{
+                sprite:{
+                    sequence: '2-14',
+                    top: -560,
+                    left: -80
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            },{
+                sprite:{
+                    sequence: '2-15',
+                    top: -600,
+                    left: -80
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            },{
+                sprite:{
+                    sequence: '2-16',
+                    top: -640,
+                    left: -80
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            }],
+            pokeball: [{
+                sprite:{
+                    sequence: '3-13',
+                    top: -520,
+                    left: -120
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            },{
+                sprite:{
+                    sequence: '3-12',
+                    top: -480,
+                    left: -120
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            },{
+                sprite:{
+                    sequence: '3-11',
+                    top: -440,
+                    left: -120
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            },{
+                sprite:{
+                    sequence: '3-10',
+                    top: -400,
+                    left: -120
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            },{
+                sprite:{
+                    sequence: '3-00',
+                    top: 0,
+                    left: -120
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            }, {
+                sprite:{
+                    sequence: '3-14',
+                    top: -560,
+                    left: -120
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            }, {
+                sprite:{
+                    sequence: '3-15',
+                    top: -600,
+                    left: -120
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            }, {
+                sprite:{
+                    sequence: '3-16',
+                    top: -640,
+                    left: -120
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            }]
+        };
+
+        var ballsLancer = {
+            hyperball: [{
+                sprite:{
+                    sequence: '1-0',
+                    top: -0,
+                    left: -40
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            },{
+                sprite:{
+                    sequence: '1-1',
+                    top: -40,
+                    left: -40
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            },{
+                sprite:{
+                    sequence: '1-2',
+                    top: -80,
+                    left: -40
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            },{
+                sprite:{
+                    sequence: '1-3',
+                    top: -120,
+                    left: -40
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            },{
+                sprite:{
+                    sequence: '1-4',
+                    top: -160,
+                    left: -40
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            }, {
+                sprite:{
+                    sequence: '1-5',
+                    top: -200,
+                    left: -40
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            }, {
+                sprite:{
+                    sequence: '1-6',
+                    top: -240,
+                    left: -40
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            }, {
+                sprite:{
+                    sequence: '1-7',
+                    top: -280,
+                    left: -40
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            }, {
+                sprite:{
+                    sequence: '1-8',
+                    top: -320,
+                    left: -40
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            }, {
+                sprite:{
+                    sequence: '1-9',
+                    top: -360,
+                    left: -40
+                }, masque: {
+                    height: 40,
+                    width: 40
+                }
+            }]
+        };
+
+        var lokhlass = {
+        // 2ème ligne de la planche de sprites : 1 décomposition + 4ème ligne : 5 décompositions.
+            calme:[{ // Décomposition de la 2ème ligne
+                sprite: {
+                    top: -100,
+                    left: 0
+                },
+                masque: {
+                    height: 100,
+                    width: 110
+                }
+                },{ // Décompositions de la 4ème ligne - 1
+                sprite: {
+                    top: -296,
+                    left: 0
+                },
+                masque: {
+                    height: 100,
+                    width: 104
+                }
+            },{ // Décompositions de la 4ème ligne - 2
+                sprite: {
+                    top: -296,
+                    left: -103
+                },
+                masque: {
+                    height: 100,
+                    width: 106
+                }
+            },{ // Décompositions de la 4ème ligne - 3
+                sprite: {
+                    top: -292,
+                    left: -208
+                },
+                masque: {
+                    height: 98,
+                    width: 108
+                }
+            },{ // Décompositions de la 4ème ligne - 4
+                sprite: {
+                    top: -294,
+                    left: -315
+                },
+                masque: {
+                    height: 98,
+                    width: 106
+                }
+            },{ // Décompositions de la 4ème ligne - 5
+                sprite: {
+                    top: -298,
+                    left: -420
+                },
+                masque: {
+                    height: 98,
+                    width: 104
+                }
+            }],
+        // 1ère ligne de la planche de sprites : 5 décompositions
+            patient:[{
+                sprite: {
+                    top: -2,
+                    left: 0
+                },
+                masque: {
+                    height: 100,
+                    width: 105,
+                }
+            },{
+                    sprite: {
+                        top: -3,
+                        left: -104
+                    },
+                    masque: {
+                        height: 100,
+                        width: 105
+                    }
+                },{
+                sprite: {
+                    top: -6,
+                    left: -209
+                },
+                masque: {
+                    height: 100,
+                    width: 108
+                }
+            },{
+                sprite: {
+                    top: -2,
+                    left: -318
+                },
+                masque: {
+                    height: 102,
+                    width: 98
+                }
+            },{
+                sprite: {
+                    top: 0,
+                    left: -417
+                },
+                masque: {
+                    height: 106,
+                    width: 96
+                }
+            }]
+        };
+
+    var pkmnInitMovements = function(iPkmn){
+    // iPkmn correspond à l'index de ballsInit.
+
+        spritePkmn.style.left = lokhlass.patient[iPkmn].sprite.left + 'px';
+        spritePkmn.style.top = lokhlass.patient[iPkmn].sprite.top + 'px';
+        masquePkmn.style.height = lokhlass.patient[iPkmn].masque.height + 'px';
+        masquePkmn.style.width = lokhlass.patient[iPkmn].masque.width + 'px';
+        // console.log('Le compteur de Lokhlass est à : ' + iPkmn);
+
+        var pkmnInitTimeoutId = window.setTimeout(function(){
+            if(lokhlass.patient[iPkmn +1]){
+                // console.log('Le compteur de Lokhlass est à : ' + iPkmn + ' son top est à : ' + spritePkmn.style.top + ' et son left à : ' + spritePkmn.style.left);
+                
+                if(deplacementXPkmn === true && parseFloat(masqueXPkmn) > 24){
+                    masqueXPkmn = parseFloat(masqueXPkmn) - 25;
+                    masquePkmn.style.left = masqueXPkmn + 'px';
+// Collision entre le bord gauche de la div et Lokhlass pour qu'il change de direction.
+                }else{ 
+                    // pkmnSprite.style.transform = 'scaleX(-1)';   => Mauvaise idée, ça décale tout car ça inverse la planche de sprites.
+                    masquePkmn.style.transform = 'scaleX(-1)';      // Flip sur le masque, ça fonctionne hyper bien!
+                    deplacementXPkmn = false;
+                    masqueXPkmn = parseFloat(masqueXPkmn) + 25;
+                    masquePkmn.style.left = masqueXPkmn + 'px';
+                    // console.log('Test : ' + (parseFloat(gaucheMasque) - parseFloat(pkmnMasque.style.width)));
+// "Collision entre le bord droit de la div et Lokhlass pour qu'il change de sens.
+                    if(deplacementXPkmn === false && parseFloat(masqueXPkmn) >= 725){  //(parseFloat(gaucheMasque) - parseFloat(pkmnMasque.style.width)) 
+                        masquePkmn.style.transform = 'scaleX(1)';
+                        deplacementXPkmn = true;
+                        masqueXPkmn = parseFloat(masqueXPkmn) - 25;
+                        masquePkmn.style.left = masqueXPkmn + 'px';
+                    }
+                }
+                // console.log('La position gauche de Lokhlass est : ' + gaucheMasque + ' et son left est à : ' + pkmnSprite.style.left + ' et la largeur du masque est de : ' + pkmnMasque.style.width); //pkmnMasque.style.left);
+                pkmnInitMovements(iPkmn + 1);
+            } else{
+                pkmnInitMovements(0);
+            };
+        }, 300);
+    };
+
+        var ballMovements = function(iTabBallLancer){
+            console.log('On est dans ballMovements.');
+            clearTimeout(hyperballMvtInitTimeoutId);
+// iTabBallLancer correspond à l'index de ballsInit.
+            spriteBall.style.left = ballsLancer.hyperball[iTabBallLancer].sprite.left + 'px'; 
+            spriteBall.style.top = ballsLancer.hyperball[iTabBallLancer].sprite.top + 'px';
+            // console.log('Top : ' + spriteBall.style.top + ' left : ' + spriteBall.style.left);
+            var ballTimeoutId = window.setTimeout(function(){
+                if(ballsLancer.hyperball[iTabBallLancer +1]){
+                    ballMovements(iTabBallLancer + 1);
+                    // console.log('Le compteur de la ball est à : ' + iTabBallLancer + ' Top : ' + spriteBall.style.top + ' Left : ' + spriteBall.style.left);
+                } else{
+                    ballMovements(0);
+                };
+            }, 150);
+            // console.log('Id timeout ball: ' + ballTimeoutId);
+            idTimeoutBall = ballTimeoutId;
+        };
+
+        var hyperballMvtInit = function(iTabBallInit){
+            console.log('On est dans hyperballMvtInit.');
+            clearTimeout(idTimeoutBall);
+            clearInterval(idChocolat);
+// iTabBallInit correspond à l'index de ballsInit.
+            spriteBall.style.left = ballsInit.hyperball[iTabBallInit].sprite.left + 'px'; 
+            spriteBall.style.top = ballsInit.hyperball[iTabBallInit].sprite.top + 'px';
+            console.log('Top : ' + spriteBall.style.top + ' left : ' + spriteBall.style.left);
+            // var incremantation = true;
+            var ballsInitTimeoutId = window.setTimeout(function(){
+                if(ballsInit.hyperball[iTabBallInit +1]){
+                    hyperballMvtInit(iTabBallInit + 1);
+                    // incrementation = true;
+                    // console.log('Le compteur de la ball est à : ' + iTabBallInit + ' Top : ' + spriteBall.style.top + ' Left : ' + spriteBall.style.left);
+                } else{
+                    // hyperballMvtInit(iTabBallInit - 1);
+                    // incrementation = false;
+                    // if(iTabBallInit<1){
+                        // incrementation = true;
+                    // }      
+                    hyperballMvtInit(0);
+                };
+            }, 150);
+            // console.log('Id timeout ball: ' + ballTimeoutId);
+            hyperballMvtInitTimeoutId = ballsInitTimeoutId;
+            // return ballTimeoutId;
+        };
+
+        var cookie = function(iTabBall){
+            clearTimeout(hyperballMvtInitTimeoutId);
+            // console.log('On est rentré dans la fonction cookie. Le double-clic vaut : ' + dblclic + ' et le top du masque est à : ' + masqueYBall);
+            // spriteBall.style.left = ballsLancer.hyperball[0].sprite.left + 'px';
+            // spriteBall.style.top = ballsLancer.hyperball[0].sprite.top + 'px';
+            spriteBall.style.top = '0px';
+            spriteBall.style.left = '-40px';
+            // console.log('Sprite X ' + spriteBall.style.top +' et Y vaut : ' + spriteBall.style.left);
+            // if (k3238){
+                var chocolat = setInterval(function(){
+                    // console.log('Chocolat vaut : ' + chocolat + ' et le masque vaut :  ' + masqueYBall);
+                    if (parseFloat(masqueYBall) > 15 && (k3238 === true || dblclic === true)){
+                        masqueYBall = parseFloat(masqueYBall) -10;
+                        masqueBall.style.top = masqueYBall + 'px';
+                        // console.log('Le masque vaut :  ' + masqueYBall);
+                        ballMovements(0);
+                        // console.log('Ball : masque Y ' + masqueYBall + ' et X : ' + parseFloat(masqueXBall) + ', puis le pokémon : masque Y ' + parseFloat(masqueYPkmn) + ' et X : ' + masqueXPkmn);
+
+                        if((parseFloat(masqueYBall) < parseFloat(masqueYPkmn) + parseFloat(masquePkmn.style.height)) && (parseFloat(masqueXBall) < parseFloat(masqueXPkmn) + parseFloat(masquePkmn.style.width)) && (parseFloat(masqueXBall) > parseFloat(masqueXPkmn))){
+                            console.log('Collisiiiiiiiiiiiiiiiiioooooooooooooooooon!!!');
+                            score += 100;
+                        }
+                    } else{
+                        // clearTimeout(idTimeoutBall);
+                        // if((parseFloat(masqueYBall) > parseFloat(masqueYPkmn)) && (parseFloat(masqueYBall) > parseFloat(masqueYPkmn) + parseFloat(masquePkmn.style.height)) && (parseFloat(masqueXPkmn) > parseFloat(masqueXPkmn)) && (parseFloat(masqueXBall) < parseFloat(masqueXPkmn) + parseFloat(masquePkmn.style.width))){
+                        k3238 = false;
+                        dblclic = false;
+                        clearInterval(chocolat);
+                        clearTimeout(idTimeoutBall);
+                        clearTimeout(hyperballMvtInitTimeoutId);
+                        idChocolat = chocolat;
+                        console.log('Clear de \"chocolat\" confirmed! ' + chocolat + ' et \"double-clic\" repasse à : ' + dblclic + ' et \"k3238\" repasse à : ' + k3238);
+                        masqueBall.style.top = '550px';
+                        masqueYBall = masqueBall.style.top;
+                        hyperballMvtInit(0);
+                        // console.log('Chocolat vaut : ' + chocolat + ' et le masque vaut :  ' + masqueYBall);
+                    } 
+                }, 100);
+        };
+
+        window.addEventListener('DOMContentLoaded', function(){
+            (function(){
+                var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||                              window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+            })();
+
+            console.log('DOM chargé!');
+            window.addEventListener('dblclick', function(){
+                dblclic = true;
+                console.log('Le double-clic vaut : ' + dblclic + ' On lance coookie?');
+                cookie();
+            });
+            hyperballMvtInit(0);
+            pkmnInitMovements(0);
+            
+            window.addEventListener('keydown', function(clavier){
+                var touche = clavier.keyCode;
+
+                switch(touche){
+                    case 32: // "Space"
+                    case 38: // "ArrowUp"
+                        k3238 = true;
+                        console.log('k3238 vaut : ' + k3238 + ' On lance coookie?');
+                        cookie();
+                    break;
+
+                    case 37: // "ArrowLeft"
+                        k37 = true;
+                        console.log('k37 vaut : ' + k37 + ' On lance la fonction?');
+                        masqueXBall = parseFloat(masqueXBall) -5;
+                        masqueBall.style.left = masqueXBall + 'px';
+                        // Fonction à déclencher
+                    break;
+
+                    case 39: // "ArrowRight"
+                        k39 = true;
+                        console.log('k39 vaut : ' + k39 + ' On lance la fonction?');
+                        masqueXBall = parseFloat(masqueXBall) +5;
+                        masqueBall.style.left = masqueXBall + 'px';
+                        // Fonction à déclencher
+                    break;
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
